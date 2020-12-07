@@ -4,4 +4,5 @@ nav:
     - About: about.md
     - Screen: Screen.md
     - fMap: fMap.md
+    - Cursor: Cursor.md
 theme: readthedocs
