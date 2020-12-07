@@ -5,6 +5,8 @@ This class is a structure class for constructing `Screen` Objects
 `Screen` objects are the main object this library uses for managing and displying `Float` objects, 
 which are objects that is in similar sort as Widgets in other graphical designing libraries/languages.
 
+This class also contains the `keyboard listener` and determines the function for keyboard inputs.
+
 ##--Arguments--
 
 |  | base | cursor | setScreen | fps | functions | arguments | columns | rows | fullscreen | scrollSensitivity |
@@ -60,10 +62,15 @@ This argument determines whether the console window will automatically go fullsc
 this argument are to be set `False`, or else it will exit the already full screen window, due to the code executed simply 
 presses the f11 key using the keyboard module.
 
+###scrollSensitivity | `int`
+This argument determines the sensitivity of scrolling within the `Screen` object
+
+used in passing into the `self.cursor` attribute when creating the `Cursor` object
+
 ##--Attributes--
 
 ###self.functions
-attribute of the `function` argument
+attribute of the `functions` argument
 
 ###self.arguments
 attribute of the `arguments` argument
@@ -104,13 +111,41 @@ the attribute for exiting the `start()` function, False at default
 ###self.inputTarget
 this attribute stores the `Float` object that recieves keyboard inputs
 
+###self.klistener
+this attribute is created in the function `kbSetup()`
 
-
-
+this attribute stores the keyboard listener of the current `Screen`
 
 
 ##--Functions--
 ### setFloats | floats: `list`
 This function sets the passed list of `floats` as attribute `self.floats`
 
+### addFloats | floats: `list`
+This function appends the passed list of `floats` at the end of list attribute `self.floats`
 
+### setBase | base: `list` `graphical array`
+This funciton sets the passed list of `base` as the attribute `self.base`
+
+### getBase
+returns a deepcopy of attribute `self.base`
+
+### getFloatBC| x:`int`, y:`int`
+This functions returns the `Float` object at the given coordinates
+
+### kbSetup
+This function sets up the keyboard listener, it is called at the start of the function `start()`
+
+### singleFrameRender
+this returns a rendered string of the current frame
+
+### loopFunctions
+this executes the functions in attribute `self.functions` with arguments in attribute `self.arguments`
+
+### start
+this function starts the display of the current `Screen` object by printing in a loop.
+
+##Usage
+	screen = Screen(fps = 60, fullscreen=False, scrollSensitivity=2)
+
+This creates a `Screen` object screen with 60 fps, does not automatically Fullscreens, and with a scrollSensitivity of 2
