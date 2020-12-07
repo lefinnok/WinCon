@@ -3,4 +3,5 @@ nav:
     - Home: index.md
     - About: about.md
     - Screen: Screen.md
+    - fMap: fMap.md
 theme: readthedocs
