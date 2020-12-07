@@ -1,1 +1,5 @@
 site_name: WinCon Documentations
+nav:
+    - Home: index.md
+    - About: about.md
+theme: readthedocs
