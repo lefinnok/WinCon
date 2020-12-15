@@ -1,29 +1,25 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='package_archetype',
+    name='WinCon',
     packages=find_packages(),
-    version='0.4',
-    description='A simple lib that prints out hello world',
-    author='Justin Beall',
-    author_email='jus.beall@gmail.com',
-    url='https://github.com/DEV3L/python-package-archetype',
-    download_url='https://github.com/DEV3L/python-package-archetype/tarball/0.4',
-    keywords=['dev3l', 'archetype', 'pypi', 'package'],  # arbitrary keywords
+    version='0.1',
+    description='A Windows Console ASCII Graphics Module',
+    licence='GNU Affero General Public License v3.0',
+    author='Chak Lai KWOK',
+    author_email='lefinnokwok@gmail.com',
+    url='https://github.com/lefinnok/WinCon',
+    keywords=['console', 'graphics', 'ASCII'],  # arbitrary keywords
     install_requires=[
-        'pytest==2.9.2'
+        'pytest>=2.9.2',
     ],
     classifiers=[
         'Environment :: Console',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: MIT License',
-        'Operating System :: OS Independent',
+        'License :: OSI Approved :: GNU Affero General Public License v3.0 ',
+        'Operating System :: Windows',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.8',
         'Topic :: Software Development :: Libraries :: Python Modules'],
-    entry_points={
-        'console_scripts': [
-            'hello_world = package_archetype.hello_world:print_hello_world'
-        ]},
 )
