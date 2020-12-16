@@ -398,31 +398,35 @@ class Float(): #object class for floats
 
 
 class TextBox(Float):
+    def aryUpdate(self):
+        txtAry = []
+        for line in self.text:
+            words = ''.join(line).split(' ')
+            ln = []
+            val = (self.col - (self.padding[2] + self.padding[3]))
+            for word in words:
+                ws = list(word)
+                if len(ws) + len(ln) + 1 < val:
+                    ln += ws + [' ']
+                else:
+                    txtAry.append(ln[:])
+                    ln = []
+                    ln += ws + [' ']
+            txtAry.append(ln[:])
+            txtAry.append([])
+        self.textAry = txtAry
+        self.flex = len(self.textAry) - len(self.ary) + self.padding[0] + self.padding[1] + self.f
     def __init__(self, sx, sy, x, y, enable, text, padding = (1,1,1,1), increment = 0, options = [], flex = 0, invisible = False):
         self.options = options
         ary = box(sx,sy,options)
         super().__init__(ary, x, y, enable, invisible)
         self.padding = padding
         self.increment = increment
-        self.itext = text
-        words = self.itext.split(' ')
-        txtAry = []
-        ln = []
-        val = (self.col - (padding[2] + padding[3]))
-        for word in words:
-            ws = list(word)
-            if len(ws) + len(ln) + 1 < val:
-                ln += ws + [' ']
-            else:
-                txtAry.append(ln[:])
-                ln = []
-                ln += ws + [' ']
-        txtAry.append(ln[:])
-        self.textAry = txtAry
+        self.text = text
         self.f = flex
+        self.aryUpdate()
         self.irow = self.row
         self.icol = self.col
-        self.flex = len(self.textAry) - len(self.ary) + padding[0] + padding[1] + self.f
 
     def get(self):
         self.increment = clampT(self.increment, self.flex)
@@ -437,21 +441,12 @@ class TextBox(Float):
         return textReplace(self.ary, self.textAry, self.increment, padding = self.padding)
 
     def setText(self, text):
-        words = text.split(' ')
-        txtAry = []
-        ln = []
-        val = (self.col - (self.padding[2] + self.padding[3]))
-        for word in words:
-            ws = len(word)
-            if len(ws) + len(ln) + 1 < val:
-                ln += ws + [' ']
-            else:
-                txtAry.append(ln[:])
-                ln = []
-                ln += ws + [' ']
-        txtAry.append(ln[:])
-        self.text = txtAry
-        self.flex = len(self.textAry) - len(self.ary) + self.padding[0] + self.padding[1] + self.f
+        self.text = text
+        self.aryUpdate()
+
+    def addText(self, text):
+        self.text += text
+        self.aryUpdate()
 
     def resize(self,ux,uy,vx,vy):
         dx = vx-ux
@@ -676,7 +671,44 @@ class InputField(Float):
     def getText(self):
         return self.text
 
+class CommandLine(InputField):
+    def __init__(self, sx, x, y, enable, commands, commandList = []):
+        self.commandList = commandList
+        self.commandHistory = 0
+        self.commands = commands
+        super().__init__(sx, x, y, enable)
+    def specialFunc(self,key):
+        if key is Key.backspace:
+            if self.text != [[]]:
+                self.text[0].pop()
+            self.aryUpdate()
 
+        if key is Key.space:
+            self.text[0].append(' ')
+            self.aryUpdate()
+
+        if key is Key.enter:
+            self.commandList.append(self.text[0])
+            arguments = ''.join(self.text[0]).split(' ')
+            command = arguments.pop(0)
+            self.commands[command](*arguments)
+            self.text = [[]]
+            self.aryUpdate()
+
+        if key is Key.up:
+            self.commandHistory = max(self.commandHistory - 1,-len(self.commandList)+1)
+            self.text[0] = self.commandList[self.commandHistory]
+            self.aryUpdate()
+
+        if key is Key.down:
+            self.commandHistory = min(self.commandHistory + 1, 1)
+            if self.commandHistory == 1:
+                self.text == [[]]
+            else:
+                self.text[0] = self.commandList[self.commandHistory]
+            self.aryUpdate()
+
+        self.increment = self.flex
 
 class AnimFloat(Float): #object class for animated floats
     def start(self):
