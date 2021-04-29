@@ -11,7 +11,7 @@ setup(
     url='https://github.com/lefinnok/WinCon',
     keywords=['console', 'graphics', 'ASCII'],  # arbitrary keywords
     install_requires=[
-        'pytest>=2.9.2',
+        'pytest>=2.9.2'
     ],
     classifiers=[
         'Environment :: Console',
